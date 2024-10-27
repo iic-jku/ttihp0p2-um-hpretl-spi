@@ -19,6 +19,7 @@ project:
   source_files:
     - "tt_um_hpretl_spi.v"
     - "chain2.v"
+    - "dsmod1.v"
 
 # The pinout of your project. Leave unused pins blank. DO NOT delete or add any pins.
 pinout:
@@ -30,7 +31,7 @@ pinout:
   ui[4]: ""
   ui[5]: ""
   ui[6]: ""
-  ui[7]: ""
+  ui[7]: "order of delta-sigma modulator (0 = 1st, 1 = 2nd)"
 
   # Outputs
   uo[0]: "SPI data out (MISO)"
@@ -39,8 +40,8 @@ pinout:
   uo[3]: ""
   uo[4]: ""
   uo[5]: ""
-  uo[6]: ""
-  uo[7]: ""
+  uo[6]: "inverted output of delta-sigma modulator"
+  uo[7]: "output of delta-sigma modulator"
 
   # Bidirectional pins
   uio[0]: "register b0|8"

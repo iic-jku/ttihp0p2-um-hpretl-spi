@@ -5,6 +5,7 @@
 
 `default_nettype none
 `include "chain2.v"
+`include "dsmod1.v"
 
 module tt_um_hpretl_spi (
     input  wire [7:0] ui_in,    // Dedicated inputs
@@ -22,7 +23,7 @@ module tt_um_hpretl_spi (
   assign uio_oe = 8'b11111111;  // using IO for output
   assign uio_out = ui_in[3] ? out_w[15:8] : out_w[7:0]; 
 
-  chain2 dut(
+  chain2 spi(
     .i_resetn(rst_n),
     .i_clk(clk),
     .i_spi_clk(ui_in[0]),
@@ -34,10 +35,19 @@ module tt_um_hpretl_spi (
     .o_data(out_w)
   );
 
+  dsmod1 dac(
+    .i_data(out_w),
+    .i_rst_n(rst_n),
+    .i_clk(clk),
+    .i_mode(ui_in[7]),
+    .o_ds(uo_out[7]),
+    .o_ds_n(uo_out[6])
+  );
+
   // All output pins must be assigned. If not used, assign to 0.
-  assign uo_out[7:3] = 5'b10000;
+  assign uo_out[5:3] = 3'b000;
 
   // List all unused inputs to prevent warnings
-  wire _unused = &{ena, uio_in[7:0], ui_in[7:4], 1'b0};
+  wire _unused = &{ena, uio_in[7:0], ui_in[6:4], 1'b0};
 
 endmodule // tt_um_hpretl_spi

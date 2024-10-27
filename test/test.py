@@ -36,12 +36,12 @@ async def test_project(dut):
 
     # Shift cookie in
     for i in range(16):
-        #b0 is clk, b1 is dat, b2 is load, b3 is select
+        # b0 is clk, b1 is dat, b2 is load, b3 is select
         dut.ui_in.value = 1*0 + 2*load_word_bits[i] + 4*0 + 8*0
 
         await ClockCycles(dut.clk, 3)
 
-        #b0 is clk, b1 is dat, b2 is load, b3 is select
+        # b0 is clk, b1 is dat, b2 is load, b3 is select
         dut.ui_in.value = 1*1 + 2*load_word_bits[i] + 4*0 + 8*0
 
         await ClockCycles(dut.clk, 3)
@@ -49,7 +49,7 @@ async def test_project(dut):
         assert (dut.uo_out.value & 2) == 0
 
     # serial register is loaded, now store it
-     #b0 is clk, b1 is dat, b2 is load, b3 is select
+    # b0 is clk, b1 is dat, b2 is load, b3 is select
     dut.ui_in.value = 1*0 + 2*0 + 4*0 + 8*0
     await ClockCycles(dut.clk, 3)
     dut.ui_in.value = 1*0 + 2*0 + 4*1 + 8*0
@@ -70,14 +70,48 @@ async def test_project(dut):
 
     # Shift 0 in
     for i in range(16):
-        #b0 is clk, b1 is dat, b2 is load, b3 is select
+        # b0 is clk, b1 is dat, b2 is load, b3 is select
         dut.ui_in.value = 1*0 + 2*0 + 4*0 + 8*0
 
         await ClockCycles(dut.clk, 3)
 
-        #b0 is clk, b1 is dat, b2 is load, b3 is select
+        # b0 is clk, b1 is dat, b2 is load, b3 is select
         dut.ui_in.value = 1*1 + 2*0 + 4*0 + 8*0
 
         await ClockCycles(dut.clk, 3)
 
         assert (dut.uo_out.value & 2) == 2
+
+    # serial register is loaded, now store it
+    # b0 is clk, b1 is dat, b2 is load, b3 is select
+    dut.ui_in.value = 1*0 + 2*0 + 4*0 + 8*0
+    await ClockCycles(dut.clk, 3)
+    dut.ui_in.value = 1*0 + 2*0 + 4*1 + 8*0
+    await ClockCycles(dut.clk, 3)
+
+    # Wait a few cycles to watch DAC operation
+    await ClockCycles(dut.clk, 100)
+
+    # Shift 1 in
+    for i in range(16):
+        # b0 is clk, b1 is dat, b2 is load, b3 is select
+        dut.ui_in.value = 1*0 + 2*1 + 4*0 + 8*0
+
+        await ClockCycles(dut.clk, 3)
+
+        #b0 is clk, b1 is dat, b2 is load, b3 is select
+        dut.ui_in.value = 1*1 + 2*1 + 4*0 + 8*0
+
+        await ClockCycles(dut.clk, 3)
+
+        assert (dut.uo_out.value & 2) == 0
+
+    # serial register is loaded, now store it
+    # b0 is clk, b1 is dat, b2 is load, b3 is select
+    dut.ui_in.value = 1*0 + 2*0 + 4*0 + 8*0
+    await ClockCycles(dut.clk, 3)
+    dut.ui_in.value = 1*0 + 2*0 + 4*1 + 8*0
+    await ClockCycles(dut.clk, 3)
+
+    # Wait a few cycles to watch DAC operation
+    await ClockCycles(dut.clk, 100)
