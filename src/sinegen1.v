@@ -30,19 +30,23 @@ module sinegen1 (
 	input [1:0]			i_scale
 );
 
-	reg	[4:0]			read_ptr_r;
+	reg	[5:0]			read_ptr_r;
 	reg	[15:0]			ctr_r;
 	reg					ctr_msb_last_r;
 	wire [3:0]			scale_w;
 
-	// this bitpattern is a 16b UINT sine with a period of 32 samples with
+	// this bitpattern is a 16b UINT sine with a period of 64 samples with
 	// 90% amplitude and an offset of 0x8000
 	/* verilator lint_off LITENDIAN */
-	localparam [0:(32*16)-1] sin_const = {
-		16'h8000,16'h9679,16'hAC16,16'hC000,16'hD175,16'hDFC9,16'hEA6E,16'hF0FD,
-		16'hF333,16'hF0FD,16'hEA6E,16'hDFC9,16'hD175,16'hC000,16'hAC16,16'h9679,
-		16'h8000,16'h6987,16'h53EA,16'h4000,16'h2E8B,16'h2037,16'h1592,16'h0F03,
-		16'h0CCD,16'h0F03,16'h1592,16'h2037,16'h2E8B,16'h4000,16'h53EA,16'h6987
+	localparam [0:(64*16)-1] sin_const = {
+		16'h8000,16'h8B4B,16'h9679,16'hA171,16'hAC16,16'hB64E,16'hC000,16'hC915,
+		16'hD175,16'hD90D,16'hDFC9,16'hE599,16'hEA6E,16'hEE3D,16'hF0FD,16'hF2A5,
+		16'hF333,16'hF2A5,16'hF0FD,16'hEE3D,16'hEA6E,16'hE599,16'hDFC9,16'hD90D,
+		16'hD175,16'hC915,16'hC000,16'hB64E,16'hAC16,16'hA171,16'h9679,16'h8B4B,
+		16'h8000,16'h74B5,16'h6987,16'h5E8F,16'h53EA,16'h49B2,16'h4000,16'h36EB,
+		16'h2E8B,16'h26F3,16'h2037,16'h1A67,16'h1592,16'h11C3,16'h0F03,16'h0D5B,
+		16'h0CCD,16'h0D5B,16'h0F03,16'h11C3,16'h1592,16'h1A67,16'h2037,16'h26F3,
+		16'h2E8B,16'h36EB,16'h4000,16'h49B2,16'h53EA,16'h5E8F,16'h6987,16'h74B5
 	};
 	/* verilator lint_on LITENDIAN */
 
@@ -53,7 +57,7 @@ module sinegen1 (
 	always @(posedge i_clk or negedge i_rst_n) begin
 		if (i_rst_n === 1'b0) begin
 			// reset all registers
-			read_ptr_r <= 5'b0;
+			read_ptr_r <= 6'b0;
 			ctr_r <= 16'b0;
 			ctr_msb_last_r <= 1'b0;
 		end else begin
