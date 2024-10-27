@@ -4,7 +4,7 @@
  */
 
 `default_nettype none
-`include "chain1.v"
+`include "chain2.v"
 
 module tt_um_hpretl_spi (
     input  wire [7:0] ui_in,    // Dedicated inputs
@@ -20,13 +20,15 @@ module tt_um_hpretl_spi (
   wire [15:0] out_w;
 
   assign uio_oe = 8'b11111111;  // using IO for output
-  assign uio_out = ui_in[2] ? out_w[15:8] : out_w[7:0]; 
+  assign uio_out = ui_in[3] ? out_w[15:8] : out_w[7:0]; 
 
-  chain1 dut(
+  chain2 dut(
+    .i_resetn(rst_n),
     .i_clk(clk),
-    .i_dat(ui_in[0]),
-    .i_load(ui_in[1]),
-    .o_dat(uo_out[0]),
+    .i_spi_clk(ui_in[0]),
+    .i_spi_dat(ui_in[1]),
+    .i_spi_load(ui_in[2]),
+    .o_spi_dat(uo_out[0]),
     .o_det(uo_out[1]),
     .o_check(uo_out[2]),
     .o_data(out_w)
@@ -36,6 +38,6 @@ module tt_um_hpretl_spi (
   assign uo_out[7:3] = 5'b10000;
 
   // List all unused inputs to prevent warnings
-  wire _unused = &{ena, rst_n, uio_in[7:0], ui_in[7:3], 1'b0};
+  wire _unused = &{ena, uio_in[7:0], ui_in[7:4], 1'b0};
 
 endmodule // tt_um_hpretl_spi
