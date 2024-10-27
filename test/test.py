@@ -68,6 +68,7 @@ async def test_project(dut):
     await ClockCycles(dut.clk, 1)
     assert dut.uio_out.value == 0xca
 
+    dut._log.info("Check DSMOD minimum value")
     # Shift 0 in
     for i in range(16):
         # b0 is clk, b1 is dat, b2 is load, b3 is select
@@ -92,6 +93,7 @@ async def test_project(dut):
     # Wait a few cycles to watch DAC operation
     await ClockCycles(dut.clk, 100)
 
+    dut._log.info("Check DSMOD maximum value")
     # Shift 1 in
     for i in range(16):
         # b0 is clk, b1 is dat, b2 is load, b3 is select
@@ -115,3 +117,37 @@ async def test_project(dut):
 
     # Wait a few cycles to watch DAC operation
     await ClockCycles(dut.clk, 100)
+
+    dut._log.info("Check DSMOD driven by sinegen")
+
+    load_word = "3000"
+    load_word_bin = format(int(load_word, 16), '016b')
+    load_word_bits = [int(bit) for bit in load_word_bin]
+
+    # Shift frequency control in
+    for i in range(16):
+        # b0 is clk, b1 is dat, b2 is load, b3 is select
+        dut.ui_in.value = 1*0 + 2*load_word_bits[i] + 4*0 + 8*0
+
+        await ClockCycles(dut.clk, 3)
+
+        # b0 is clk, b1 is dat, b2 is load, b3 is select
+        dut.ui_in.value = 1*1 + 2*load_word_bits[i] + 4*0 + 8*0
+
+        await ClockCycles(dut.clk, 3)
+
+        assert (dut.uo_out.value & 2) == 0
+
+    # serial register is loaded, now store it
+    # b0 is clk, b1 is dat, b2 is load, b3 is select
+    dut.ui_in.value = 1*0 + 2*0 + 4*0 + 8*0
+    await ClockCycles(dut.clk, 3)
+    dut.ui_in.value = 1*0 + 2*0 + 4*1 + 8*0
+    await ClockCycles(dut.clk, 3)
+
+    # Now select sinegen and let run for a few clock cycles
+    # b6 is sinegen select
+    dut.ui_in.value = 2**6
+
+    # Wait a few cycles to watch DAC operation
+    await ClockCycles(dut.clk, 500)

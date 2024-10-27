@@ -28,9 +28,9 @@ pinout:
   ui[1]: "SPI data in (MOSI)"
   ui[2]: "SPI load (CS)"
   ui[3]: "select output byte (0 = low, 1 = high)"
-  ui[4]: ""
-  ui[5]: ""
-  ui[6]: ""
+  ui[4]: "sinegen scale factor (LSB)"
+  ui[5]: "sinegen scale factor (MSB)"
+  ui[6]: "select ds-modulator input (0 = SPI register, 1 = sine generator)"
   ui[7]: "order of delta-sigma modulator (0 = 1st, 1 = 2nd)"
 
   # Outputs

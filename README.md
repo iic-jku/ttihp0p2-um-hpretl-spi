@@ -8,4 +8,6 @@ This project implements a simple SPI where the loaded 16b data can be output in 
 
 In addition, a first- and second-order delta-sigma modulator is implemented create a simple low-frequency voltage output with 16b.
 
+Further, a sine generator with programmable frequency can be used to drive the DS-modulator.
+
 The input and output list documentation can be found in `info.yaml`.
