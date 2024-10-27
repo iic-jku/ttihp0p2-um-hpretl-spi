@@ -9,12 +9,12 @@ You can also include images in this folder and reference them in the markdown. E
 
 ## How it works
 
-Explain how your project works
+A simple serial 16b register (mini SPI) with magic cookie detection is implemented.
 
 ## How to test
 
-Explain how to use your project
+Load the shift register in a serial way.
 
 ## External hardware
 
-List external hardware used in your project (e.g. PMOD, LED display, etc), if any
+Just a way to set digital inputs is needed. A scope for monitoring output signals would be good.

@@ -4,21 +4,19 @@
     SPDX-License-Identifier: Apache-2.0
 
    Very simple scan chain with load register and magic cookie detection for
-   SG13G2 May'2024 run. Target is to test RTL2GDS flow for functionality. 
+   SG13G2 TinyTapeout Nov'2024 run. Target is to test RTL2GDS flow for functionality. 
 
    The output o_check is XOR of i_dat and i_load (pure logic in case all else
    fails).
 
-   8 pins available on testchiplet:
+   IO description:
 
-    1 = VDD
-    2 = VSS
-    3 = i_clk (like SPI SCLK)
-    4 = i_dat (like SPI MOSI)
-    5 = i_load (like SPI nCS)
-    6 = o_dat (like SPI MISO)
-    7 = o_det (magic cookie detected)
-    8 = o_check (XOR of i_dat and i_load)
+    i_clk (like SPI SCLK)
+    i_dat (like SPI MOSI)
+    i_load (like SPI nCS)
+    o_dat (like SPI MISO)
+    o_det (magic cookie detected)
+    o_check (XOR of i_dat and i_load)
 */
 
 `ifndef __CHAIN1__
@@ -60,4 +58,3 @@ module chain1 (
 
 endmodule // chain1
 `endif 
-
