@@ -23,7 +23,7 @@ module tt_um_hpretl_spi (
   wire [15:0] sine_out_w;
   wire [15:0] dac_input;
 
-  assign uio_oe = 8'b11111111;  // using IO for output
+  assign uio_oe = 8'b1111_1111;  // using IO for output
   assign uio_out = ui_in[3] ? reg_out_w[15:8] : reg_out_w[7:0]; 
 
   assign dac_input = ui_in[6] ? sine_out_w : reg_out_w;
